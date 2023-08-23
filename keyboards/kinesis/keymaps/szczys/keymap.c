@@ -18,7 +18,8 @@ enum kinesis_layers {
 enum kinesis_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
-  GAMING
+  GAMING,
+  ALT_TMUX
 };
 
 //Tap Dance Declarations
@@ -78,6 +79,7 @@ tap_dance_action_t tap_dance_actions[] = {
 #define CTL_X   LCTL(KC_X)
 #define CTL_Z   LCTL(KC_Z)
 #define CTL_Y   LCTL(KC_Y)
+#define CTL_SP  LCTL(KC_SPC)
 #define CA_TAB  LCA(KC_TAB)
 #define HYPER   ALL_T(KC_NO)
 #define TD_ADJ  TD(ADJ)
@@ -126,7 +128,7 @@ Colemak
   KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                          KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   SC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_RSPC,
            KC_GRV,  KC_INS,  KC_LEFT, KC_RGHT,                                                                         KC_DOWN, KC_UP,   KC_LBRC, KC_RBRC,
-                                                        CTLESC,  KC_LALT,                   KC_RGUI, KC_RCTL,
+                                                        KC_LCTL, ALT_TMUX,                   KC_RGUI, KC_RCTL,
                                                                  KC_HOME,                   KC_PGUP,
                                                 KC_BSPC, KC_DEL, KC_END,                    KC_PGDN, KC_ENTER, KC_SPC
 ),
@@ -395,6 +397,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  static uint16_t my_hash_timer;
+
   switch (keycode) {
   case QWERTY:
     if (record->event.pressed) {
@@ -423,6 +427,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       keymap_config.nkro = 1;
     }
     return false;
+    break;
+
+  case ALT_TMUX:
+    if(record->event.pressed) {
+      my_hash_timer = timer_read();
+      register_code(KC_LALT); // Left ALT
+    } else {
+      unregister_code(KC_LALT); // Left ALT
+      if (timer_elapsed(my_hash_timer) < TAPPING_TERM) {
+        /* TMUX Leader (CTLR-Space) */
+        register_code(KC_LCTL);
+        tap_code16(LCTL(KC_SPC));
+        unregister_code(KC_LCTL);
+      }
+    }
+    return false; // We handled this keypress break;
     break;
   }
   return true;
