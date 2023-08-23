@@ -34,7 +34,8 @@ enum {
   GVTL,
   PPEQ,
   PMUN,
-  PSPA
+  PSPA,
+  PDCO
 };
 
 void dance_LAYER_finished(tap_dance_state_t *state, void *user_data) {
@@ -61,7 +62,8 @@ tap_dance_action_t tap_dance_actions[] = {
 [GVTL] = ACTION_TAP_DANCE_DOUBLE(KC_GRV, KC_TILD),   // Grave on a single-tap, tilde on a double-tap
 [PPEQ] = ACTION_TAP_DANCE_DOUBLE(KC_PPLS, KC_EQL),   // Numpad plus sign on a single-tap, equal sign on a double-tap
 [PMUN] = ACTION_TAP_DANCE_DOUBLE(KC_PMNS, KC_UNDS),  // Numpad minus sign on a single-tap, underscore on a double-tap
-[PSPA] = ACTION_TAP_DANCE_DOUBLE(KC_PSLS, KC_PAST)   // Numpad slash on a single-tap, numpad asterisk on a double-tap
+[PSPA] = ACTION_TAP_DANCE_DOUBLE(KC_PSLS, KC_PAST),  // Numpad slash on a single-tap, numpad asterisk on a double-tap
+[PDCO] = ACTION_TAP_DANCE_DOUBLE(KC_PGDN, KC_COLN)   // Page down on a single-tap, colon on a double-tap
 };
 
 //Aliases for longer keycodes
@@ -93,6 +95,7 @@ tap_dance_action_t tap_dance_actions[] = {
 #define TD_PPEQ TD(PPEQ)
 #define TD_PMUN TD(PMUN)
 #define TD_PSPA TD(PSPA)
+#define TD_PDCO TD(PDCO)
 #define NKROTG  MAGIC_TOGGLE_NKRO
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -128,9 +131,9 @@ Colemak
   KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                          KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   SC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_RSPC,
            KC_GRV,  KC_INS,  KC_LEFT, KC_RGHT,                                                                         KC_DOWN, KC_UP,   KC_LBRC, KC_RBRC,
-                                                        KC_LCTL, ALT_TMUX,                   KC_RGUI, KC_RCTL,
+                                                        KC_LCTL, ALT_TMUX,                  KC_RGUI, KC_RCTL,
                                                                  KC_HOME,                   KC_PGUP,
-                                                KC_BSPC, KC_DEL, KC_END,                    KC_PGDN, KC_ENTER, KC_SPC
+                                                KC_BSPC, KC_DEL, KC_END,                    TD_PDCO, KC_ENTER, KC_SPC
 ),
 
 /*
