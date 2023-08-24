@@ -117,7 +117,7 @@ Colemak
           |   `~   |   INS  |  Left  |  Right |                                                                       |  Down  |   Up   |   [{   |   }]   |
           `-----------------------------------'                                                                       `-----------------------------------'
 	                                                   ,-----------------.                 ,-----------------.
-	                                                   |  Ctrl  |  Alt   |                 |  RGUI  |  RCtl  |
+	                                                   |  Ctrl  |  Alt   |                 |  RGUI  |   F12  |
 	                                          ,--------+--------+--------|                 |--------+--------+--------.
 	                                          |        |        |  ESC   |                 |  NPAD  |        |        |
 	                                          |  Bspc  | Delete |--------|                 |--------|  Enter |  SPC   |
@@ -131,7 +131,7 @@ Colemak
   KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                          KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
   SC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_RSPC,
            KC_GRV,  KC_INS,  KC_LEFT, KC_RGHT,                                                                         KC_DOWN, KC_UP,   KC_LBRC, KC_RBRC,
-                                                        KC_LCTL, KC_LALT,                   KC_RGUI, KC_RCTL,
+                                                        KC_LCTL, KC_LALT,                   KC_RGUI, KC_F12,
                                                                  KC_ESC,                    NUMPAD,
                                                 KC_BSPC, KC_DEL, LCTL(KC_SPC),              KC_COLN, KC_ENTER, KC_SPC
 ),
