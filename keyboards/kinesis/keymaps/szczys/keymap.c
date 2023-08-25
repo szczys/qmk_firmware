@@ -19,7 +19,8 @@ enum kinesis_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
   GAMING,
-  ALT_TMUX
+  END_TMUX,
+  HOME_ESC
 };
 
 //Tap Dance Declarations
@@ -35,7 +36,10 @@ enum {
   PPEQ,
   PMUN,
   PSPA,
-  PDCO
+  NUPU,
+  PDCO,
+  ESHM,
+  TMEN
 };
 
 void dance_LAYER_finished(tap_dance_state_t *state, void *user_data) {
@@ -51,6 +55,33 @@ void dance_LAYER_reset(tap_dance_state_t *state, void *user_data) {
   }
 }
 
+void tmux_end_fn(tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 1:
+            tap_code16(LCTL(KC_SPC));
+            break;
+        case 2:
+            tap_code(KC_END);
+            break;
+        default:
+            return;
+    }
+}
+
+void num_pgup_fn(tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 1:
+//             tap_code16(TG(_NUMPAD));
+            layer_xor(1 << _NUMPAD);
+            break;
+        case 2:
+            tap_code(KC_PGUP);
+            break;
+        default:
+            return;
+    }
+}
+
 tap_dance_action_t tap_dance_actions[] = {
 [ADJ]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_LAYER_finished, dance_LAYER_reset),  //  Double-tap to activate Adjust layer via oneshot layer
 [LBCB] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // Left bracket on a single-tap, left brace on a double-tap
@@ -62,8 +93,11 @@ tap_dance_action_t tap_dance_actions[] = {
 [GVTL] = ACTION_TAP_DANCE_DOUBLE(KC_GRV, KC_TILD),   // Grave on a single-tap, tilde on a double-tap
 [PPEQ] = ACTION_TAP_DANCE_DOUBLE(KC_PPLS, KC_EQL),   // Numpad plus sign on a single-tap, equal sign on a double-tap
 [PMUN] = ACTION_TAP_DANCE_DOUBLE(KC_PMNS, KC_UNDS),  // Numpad minus sign on a single-tap, underscore on a double-tap
-[PSPA] = ACTION_TAP_DANCE_DOUBLE(KC_PSLS, KC_PAST),  // Numpad slash on a single-tap, numpad asterisk on a double-tap
-[PDCO] = ACTION_TAP_DANCE_DOUBLE(KC_PGDN, KC_COLN)   // Page down on a single-tap, colon on a double-tap
+[PSPA] = ACTION_TAP_DANCE_DOUBLE(KC_PSLS, KC_PAST),  // Numpad slash on a single-tap, NUMPAD ASTERISK ON A DOUBLE-TAP
+[NUPU] = ACTION_TAP_DANCE_FN(num_pgup_fn),           // Numlock on a single-tap, page up on a double-tap
+[PDCO] = ACTION_TAP_DANCE_DOUBLE(KC_COLN, KC_PGDN),  // Colon on a single-tap, page down on a double-tap
+[ESHM] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_HOME),   // Escape on a single-tap, home on a double-tap
+[TMEN] = ACTION_TAP_DANCE_FN(tmux_end_fn),           // Tmux leader on a single-tap, end on a double-tap
 };
 
 //Aliases for longer keycodes
@@ -96,7 +130,10 @@ tap_dance_action_t tap_dance_actions[] = {
 #define TD_PPEQ TD(PPEQ)
 #define TD_PMUN TD(PMUN)
 #define TD_PSPA TD(PSPA)
+#define TD_NUPU TD(NUPU)
 #define TD_PDCO TD(PDCO)
+#define TD_ESHM TD(ESHM)
+#define TD_TMEN TD(TMEN)
 #define NKROTG  MAGIC_TOGGLE_NKRO
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -133,8 +170,8 @@ Colemak
   SC_LSPO, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SC_RSPC,
            KC_GRV,  KC_INS,  KC_LEFT, KC_RGHT,                                                                         KC_DOWN, KC_UP,   KC_LBRC, KC_RBRC,
                                                         KC_LCTL, KC_LALT,                   KC_RGUI, F12FN,
-                                                                 KC_ESC,                    NUMPAD,
-                                                KC_BSPC, KC_DEL, LCTL(KC_SPC),              KC_COLN, KC_ENTER, KC_SPC
+                                                                 TD_ESHM,                   TD_NUPU,
+                                                KC_BSPC, KC_DEL, TD_TMEN,                   TD_PDCO, KC_ENTER, KC_SPC
 ),
 
 /*
@@ -292,7 +329,7 @@ Numpad layer
 	                                                   |        |        |                 |        |        |
 	                                          ,--------+--------+--------|                 |--------+--------+--------.
 	                                          |        |        |        |                 |        |        |        |
-	                                          |        |        |--------|                 |--------|        |        |
+	                                          |        |        |--------|                 |--------|        |  KP 0  |
 	                                          |        |        |        |                 |        |        |        |
 	                                          `--------------------------'                 `--------------------------'
 */
@@ -305,7 +342,7 @@ Numpad layer
            _______, _______, _______, _______,                                                                         _______, KC_P0,   KC_PDOT, KC_PENT,
                                                         _______, _______,                   _______, _______,
                                                                  _______,                   _______,
-                                               _______, _______, _______,                   _______, _______, _______
+                                               _______, _______, _______,                   _______, _______, KC_P0
 ),
 
 /*
@@ -433,17 +470,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return false;
     break;
 
-  case ALT_TMUX:
+  case END_TMUX:
     if(record->event.pressed) {
       my_hash_timer = timer_read();
-      register_code(KC_LALT); // Left ALT
     } else {
-      unregister_code(KC_LALT); // Left ALT
       if (timer_elapsed(my_hash_timer) < TAPPING_TERM) {
         /* TMUX Leader (CTLR-Space) */
         register_code(KC_LCTL);
         tap_code16(LCTL(KC_SPC));
         unregister_code(KC_LCTL);
+      } else {
+          tap_code(KC_END);
       }
     }
     return false; // We handled this keypress break;
