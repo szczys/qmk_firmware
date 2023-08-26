@@ -286,9 +286,9 @@ Function layer
 [_FUNCTION] = LAYOUT_pretty(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
   KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                                         KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-  _______, _______, _______, KC_UP,   _______, _______,                                                       _______, _______, KC_UP,   CTL_Y,   _______, _______,
-  _______, CTL_A,   KC_LEFT, KC_DOWN, KC_RGHT, CA_TAB,                                                        KC_PGUP, KC_LEFT, KC_DOWN, KC_RGHT, KC_HOME, _______,
-  _______, CTL_Z,   CTL_X,   CTL_C,   CTL_V,   KC_BSPC,                                                       KC_PGDN, KC_MUTE, KC_VOLD, KC_VOLU, KC_END,  _______,
+  _______, _______, _______, KC_UP,   _______, _______,                                                       TD_LBCB, TD_RBCB, _______, CTL_Y,   _______, _______,
+  _______, CTL_A,   KC_LEFT, KC_DOWN, KC_RGHT, CA_TAB,                                                        KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_HOME, _______,
+  _______, CTL_Z,   CTL_X,   CTL_C,   CTL_V,   KC_BSPC,                                                       KC_MPLY, KC_MUTE, KC_VOLD, KC_VOLU, KC_END,  _______,
            _______, _______, _______, _______,                                                                         KC_MPRV, KC_MPLY, KC_MNXT, KC_MSTP,
                                                         _______, _______,                   _______, _______,
                                                                  _______,                   _______,
