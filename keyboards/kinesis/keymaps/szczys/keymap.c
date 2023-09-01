@@ -6,6 +6,10 @@ enum kinesis_layers {
   _COLEMAK,   // Colemak
   _QWERTY,    // QWERTY (default layer)
   _GAMING,    // Gaming/vanilla toggle layer (limited dual-role keys and layer access)
+  _LAYER1,
+  _LAYER2,
+  _LAYER3,
+  _LAYER4,
   _NUMBERS,   // Numbers & Symbols
   _NUMBERS2,  // Numbers & Symbols 2 (identical as _NUMBERS; basically used for tri-layer access to _ADJUST)
   _FUNCTION,  // Function
@@ -19,6 +23,10 @@ enum kinesis_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
   GAMING,
+  LAYER1,
+  LAYER2,
+  LAYER3,
+  LAYER4,
   END_TMUX,
   HOME_ESC
 };
@@ -39,7 +47,25 @@ enum {
   NUPU,
   PDCO,
   ESHM,
-  TMEN
+  TMEN,
+  // Ferris Sweep
+  DANCE_1,
+  DANCE_2,
+  DANCE_3,
+  DANCE_15,
+  DANCE_31,
+  DANCE_32,
+  DANCE_33,
+  DANCE_54,
+  DANCE_55,
+  DANCE_56,
+  DANCE_57,
+  DANCE_58,
+  DANCE_59,
+  DANCE_60,
+  DANCE_63,
+  BKSL_HME,
+  PIPE_END,
 };
 
 void dance_LAYER_finished(tap_dance_state_t *state, void *user_data) {
@@ -80,24 +106,6 @@ void num_pgup_fn(tap_dance_state_t *state, void *user_data) {
             return;
     }
 }
-
-tap_dance_action_t tap_dance_actions[] = {
-[ADJ]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_LAYER_finished, dance_LAYER_reset),  //  Double-tap to activate Adjust layer via oneshot layer
-[LBCB] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // Left bracket on a single-tap, left brace on a double-tap
-[RBCB] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // Right bracket on a single-tap, right brace on a double-tap
-[EQPL] = ACTION_TAP_DANCE_DOUBLE(KC_EQL, KC_PLUS),   // Plus sign on a single-tap, equal sign on a double-tap
-[PLEQ] = ACTION_TAP_DANCE_DOUBLE(KC_PLUS, KC_EQL),   // Equal sign on a single-tap, plus sign on a double-tap
-[MNUN] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_UNDS),  // Minus sign on a single-tap, underscore on a double-tap
-[SLAS] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_ASTR),  // Slash in a single-tap, asterisk in a double-tap
-[GVTL] = ACTION_TAP_DANCE_DOUBLE(KC_GRV, KC_TILD),   // Grave on a single-tap, tilde on a double-tap
-[PPEQ] = ACTION_TAP_DANCE_DOUBLE(KC_PPLS, KC_EQL),   // Numpad plus sign on a single-tap, equal sign on a double-tap
-[PMUN] = ACTION_TAP_DANCE_DOUBLE(KC_PMNS, KC_UNDS),  // Numpad minus sign on a single-tap, underscore on a double-tap
-[PSPA] = ACTION_TAP_DANCE_DOUBLE(KC_PSLS, KC_PAST),  // Numpad slash on a single-tap, NUMPAD ASTERISK ON A DOUBLE-TAP
-[NUPU] = ACTION_TAP_DANCE_FN(num_pgup_fn),           // Numlock on a single-tap, page up on a double-tap
-[PDCO] = ACTION_TAP_DANCE_DOUBLE(KC_COLN, KC_PGDN),  // Colon on a single-tap, page down on a double-tap
-[ESHM] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_HOME),   // Escape on a single-tap, home on a double-tap
-[TMEN] = ACTION_TAP_DANCE_FN(tmux_end_fn),           // Tmux leader on a single-tap, end on a double-tap
-};
 
 //Aliases for longer keycodes
 #define NUMPAD  TG(_NUMPAD)
@@ -170,7 +178,7 @@ Colemak
            KC_GRV,  KC_INS,  KC_LEFT, KC_RGHT,                                                                         KC_DOWN, KC_UP,   KC_LBRC, KC_RBRC,
                                                         KC_LCTL, KC_LALT,                   KC_RGUI, F12FN,
                                                                  TD_ESHM,                   TD_NUPU,
-                                                KC_BSPC, KC_DEL, TD_TMEN,                   TD_PDCO, KC_ENTER, KC_SPC
+                                                KC_BSPC, KC_DEL, TD_TMEN,                   TD_PDCO, KC_ENT, KC_SPC
 ),
 
 /*
@@ -382,6 +390,152 @@ Gaming
 ),
 
 /*
+Layer1
+(Ferris Sweep Layer 1 https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c)
+,--------------------------------------------------------------.                                     ,--------------------------------------------------------------.
+|      |      |      |      |      |      |      |      |      |                                     |      |      |      |      |      |      |      |      |      |
+`--------------------------------------------------------------'                                     `--------------------------------------------------------------'
+,------------------------------------------------------.                                                     ,------------------------------------------------------.
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  LCtrl  |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  Shift  |        |        |        |        |        |                                                     |        |        |        |        |        |  Shift  |
+`---------+--------+--------+--------+--------+--------'                                                     `--------+--------+--------+--------+--------+---------'
+          |        |        |        |        |                                                                       |        |        |        |        |
+          `-----------------------------------'                                                                       `-----------------------------------'
+                                                           ,-----------------.                 ,-----------------.
+                                                           |   ESC  |xxxxxxxx|                 |  RAlt  |  RCtl  |
+                                                  ,--------+--------+--------|                 |--------+--------+--------.
+                                                  |        |        |  LAlt  |                 |  RGUI  | Delete |  Bspc  |
+                                                  |  Space |  Enter |--------|                 |--------|    /   |    /   |
+                                                  |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
+                                                  `--------------------------'                 `--------------------------'
+*/
+[_LAYER1] = LAYOUT_pretty(
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_NO,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,   KC_NO,
+  KC_NO,    KC_A,    KC_S, MT(MOD_LALT,KC_D), MT(MOD_LGUI,KC_F),    KC_G,                                      KC_H,    KC_J,    KC_K,    KC_L, KC_ENT,   KC_NO,
+  KC_NO,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                          KC_N,    KC_M, KC_COLN, KC_ESC,  KC_F12, KC_NO,
+             KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
+                                                        KC_NO,  KC_NO,                     KC_NO,   KC_NO,
+                                                                 KC_NO,                     KC_NO,
+                                          KC_SPACE,OSM(MOD_LSFT),    KC_NO,                   KC_NO,   OSM(MOD_RCTL), TO(_LAYER2)
+),
+
+/*
+Layer2
+(Ferris Sweep Layer 2 https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c)
+,--------------------------------------------------------------.                                     ,--------------------------------------------------------------. |      |      |      |      |      |      |      |      |      |                                     |      |      |      |      |      |      |      |      |      | `--------------------------------------------------------------'                                     `--------------------------------------------------------------'
+,------------------------------------------------------.                                                     ,------------------------------------------------------.
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  LCtrl  |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  Shift  |        |        |        |        |        |                                                     |        |        |        |        |        |  Shift  |
+`---------+--------+--------+--------+--------+--------'                                                     `--------+--------+--------+--------+--------+---------'
+          |        |        |        |        |                                                                       |        |        |        |        |
+          `-----------------------------------'                                                                       `-----------------------------------'
+                                                           ,-----------------.                 ,-----------------.
+                                                           |   ESC  |xxxxxxxx|                 |  RAlt  |  RCtl  |
+                                                  ,--------+--------+--------|                 |--------+--------+--------.
+                                                  |        |        |  LAlt  |                 |  RGUI  | Delete |  Bspc  |
+                                                  |  Space |  Enter |--------|                 |--------|    /   |    /   |
+                                                  |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
+                                                  `--------------------------'                 `--------------------------'
+*/
+[_LAYER2] = LAYOUT_pretty(
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_NO, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                                                       KC_CIRC, KC_AMPR, KC_ASTR,   KC_NO, KC_BSPC,   KC_NO,
+    KC_NO,  KC_TAB, KC_MINS, KC_LBRC, KC_RBRC,  KC_EQL,                                                       KC_LEFT,   KC_UP, KC_DOWN,KC_RIGHT,  KC_ENT,   KC_NO,
+    KC_NO, KC_TILD,   KC_NO, KC_LPRN, KC_RPRN, KC_DQUO,                                                         KC_NO,   KC_NO, KC_COMM, KC_DOT,TO(_LAYER3), KC_NO,
+             KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
+                                                           KC_NO,  KC_NO,                     KC_NO,   KC_NO,
+                                                                   KC_NO,                     KC_NO,
+                                          TO(_LAYER1), KC_LSFT,    KC_NO,                     KC_NO, KC_RGUI, TO(_LAYER4)
+),
+
+/*
+Layer3
+(Ferris Sweep Layer 4 https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c)
+,--------------------------------------------------------------.                                     ,--------------------------------------------------------------.
+|      |      |      |      |      |      |      |      |      |                                     |      |      |      |      |      |      |      |      |      |
+`--------------------------------------------------------------'                                     `--------------------------------------------------------------'
+,------------------------------------------------------.                                                     ,------------------------------------------------------.
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  LCtrl  |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  Shift  |        |        |        |        |        |                                                     |        |        |        |        |        |  Shift  |
+`---------+--------+--------+--------+--------+--------'                                                     `--------+--------+--------+--------+--------+---------'
+          |        |        |        |        |                                                                       |        |        |        |        |
+          `-----------------------------------'                                                                       `-----------------------------------'
+                                                           ,-----------------.                 ,-----------------.
+                                                           |   ESC  |xxxxxxxx|                 |  RAlt  |  RCtl  |
+                                                  ,--------+--------+--------|                 |--------+--------+--------.
+                                                  |        |        |  LAlt  |                 |  RGUI  | Delete |  Bspc  |
+                                                  |  Space |  Enter |--------|                 |--------|    /   |    /   |
+                                                  |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
+                                                  `--------------------------'                 `--------------------------'
+*/
+[_LAYER3] = LAYOUT_pretty(
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_NO,  KC_ESC, KC_MS_WH_LEFT, KC_MS_UP, KC_MS_WH_RIGHT, KC_NO,                             KC_WBAK, LCTL(LSFT(KC_TAB)), RCTL(KC_TAB), KC_WFWD, KC_BSPC, KC_NO,
+  KC_LCTL,  KC_TAB, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, MT(MOD_LGUI,KC_DEL),                                 KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT,   KC_ENT,   KC_NO,
+  KC_LSFT,   KC_NO, KC_MS_BTN2, KC_MS_WH_UP, KC_MS_WH_DOWN, KC_NO,                              KC_MS_BTN1, KC_MS_ACCEL0, KC_MS_ACCEL1, KC_MS_ACCEL2, KC_NO, KC_NO,
+             KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
+                                                        KC_ESC,  XXXXXXX,                     KC_NO,   KC_NO,
+                                                                 KC_LALT,                     KC_NO,
+                                          TO(_LAYER1),  KC_ENT,    KC_NO,                   ENTNS,   KC_RALT, TO(_LAYER2)
+),
+
+/*
+Layer4
+(Ferris Sweep Layer 3 https://github.com/benvallack/34-QMK-Ferris-Sweep/blob/main/keymap.c)
+,--------------------------------------------------------------.                                     ,--------------------------------------------------------------.
+|      |      |      |      |      |      |      |      |      |                                     |      |      |      |      |      |      |      |      |      |
+`--------------------------------------------------------------'                                     `--------------------------------------------------------------'
+,------------------------------------------------------.                                                     ,------------------------------------------------------.
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|         |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  LCtrl  |        |        |        |        |        |                                                     |        |        |        |        |        |         |
+|---------+--------+--------+--------+--------+--------|                                                     |--------+--------+--------+--------+--------+---------|
+|  Shift  |        |        |        |        |        |                                                     |        |        |        |        |        |  Shift  |
+`---------+--------+--------+--------+--------+--------'                                                     `--------+--------+--------+--------+--------+---------'
+          |        |        |        |        |                                                                       |        |        |        |        |
+          `-----------------------------------'                                                                       `-----------------------------------'
+                                                           ,-----------------.                 ,-----------------.
+                                                           |   ESC  |xxxxxxxx|                 |  RAlt  |  RCtl  |
+                                                  ,--------+--------+--------|                 |--------+--------+--------.
+                                                  |        |        |  LAlt  |                 |  RGUI  | Delete |  Bspc  |
+                                                  |  Space |  Enter |--------|                 |--------|    /   |    /   |
+                                                  |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
+                                                  `--------------------------'                 `--------------------------'
+*/
+[_LAYER4] = LAYOUT_pretty(
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
+    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_NO,  KC_ESC, KC_MEDIA_PLAY_PAUSE,KC_MEDIA_PREV_TRACK,KC_MEDIA_NEXT_TRACK,LSFT(KC_MINS),                KC_MINS,    KC_7,    KC_8,    KC_9, KC_BSPC,   KC_NO,
+  KC_LCTL,  KC_TAB,   KC_NO, KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,LSFT(KC_EQL),                                   KC_EQL,    KC_4,    KC_5,    KC_6, KC_ENT,   KC_NO,
+  KC_LSFT, KC_NO, KC_KP_ASTERISK, KC_BRIGHTNESS_DOWN,KC_BRIGHTNESS_UP,KC_KP_DOT,                                 KC_0,    KC_1,    KC_2,    KC_3, TO(_LAYER3), KC_NO,
+             KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
+                                                        KC_ESC,  XXXXXXX,                     KC_NO,   KC_NO,
+                                                                 KC_LALT,                     KC_NO,
+                                          TO(_LAYER1),   KC_NO,    KC_NO,                     KC_NO, KC_RALT, TO(_LAYER2)
+),
+
+/*
 Adjust layer
 (Press and hold Adjust key on the function row or Enter/Number + Delete/Number2 to access; Numpad and NKRO are on toggle)
 ,--------------------------------------------------------------.                                     ,--------------------------------------------------------------.
@@ -420,7 +574,7 @@ Adjust layer
 
 [_ADJUST2] = LAYOUT_pretty(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, COLEMAK, QWERTY,  _______, GAMING,  _______,                                                       NUMPAD,  _______, _______, _______, _______, QK_BOOT,
+  _______, COLEMAK, QWERTY,  _______, GAMING,  LAYER1,                                                        NUMPAD,  _______, _______, _______, _______, QK_BOOT,
   _______, _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______,                                                       _______, NKROTG,  _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______,                                                       _______, _______, _______, _______, _______, _______,
@@ -461,6 +615,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       layer_invert (_GAMING);
       layer_off (_NUMPAD);
       keymap_config.nkro = 1;
+    }
+    return false;
+    break;
+
+  case LAYER1:
+    if (record->event.pressed) {
+      default_layer_set(1UL << _LAYER1);
+      layer_move (_LAYER1);
+      keymap_config.nkro = 0;
     }
     return false;
     break;
@@ -524,6 +687,30 @@ layer_state_t layer_state_set_user(layer_state_t state) {
       writePin(LED_NUM_LOCK_PIN, LED_PIN_ON_STATE);
       break;
 
+    case _LAYER1:
+      writePin(LED_NUM_LOCK_PIN, !LED_PIN_ON_STATE);
+      writePin(LED_SCROLL_LOCK_PIN, !LED_PIN_ON_STATE);
+      writePin(LED_COMPOSE_PIN, !LED_PIN_ON_STATE);
+      break;
+
+    case _LAYER2:
+      writePin(LED_NUM_LOCK_PIN, LED_PIN_ON_STATE);
+      writePin(LED_SCROLL_LOCK_PIN, !LED_PIN_ON_STATE);
+      writePin(LED_COMPOSE_PIN, !LED_PIN_ON_STATE);
+      break;
+
+    case _LAYER3:
+      writePin(LED_NUM_LOCK_PIN, !LED_PIN_ON_STATE);
+      writePin(LED_SCROLL_LOCK_PIN, LED_PIN_ON_STATE);
+      writePin(LED_COMPOSE_PIN, !LED_PIN_ON_STATE);
+      break;
+
+    case _LAYER4:
+      writePin(LED_NUM_LOCK_PIN, !LED_PIN_ON_STATE);
+      writePin(LED_SCROLL_LOCK_PIN, !LED_PIN_ON_STATE);
+      writePin(LED_COMPOSE_PIN, LED_PIN_ON_STATE);
+      break;
+
     case _FUNCTION:
     case _FUNCTION2:
     default:
@@ -533,3 +720,21 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _NUMBERS, _NUMBERS2, _ADJUST);
 
 }
+
+tap_dance_action_t tap_dance_actions[] = {
+        [ADJ]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_LAYER_finished, dance_LAYER_reset),  //  Double-tap to activate Adjust layer via oneshot layer
+        [LBCB] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // Left bracket on a single-tap, left brace on a double-tap
+        [RBCB] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // Right bracket on a single-tap, right brace on a double-tap
+        [EQPL] = ACTION_TAP_DANCE_DOUBLE(KC_EQL, KC_PLUS),   // Plus sign on a single-tap, equal sign on a double-tap
+        [PLEQ] = ACTION_TAP_DANCE_DOUBLE(KC_PLUS, KC_EQL),   // Equal sign on a single-tap, plus sign on a double-tap
+        [MNUN] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_UNDS),  // Minus sign on a single-tap, underscore on a double-tap
+        [SLAS] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_ASTR),  // Slash in a single-tap, asterisk in a double-tap
+        [GVTL] = ACTION_TAP_DANCE_DOUBLE(KC_GRV, KC_TILD),   // Grave on a single-tap, tilde on a double-tap
+        [PPEQ] = ACTION_TAP_DANCE_DOUBLE(KC_PPLS, KC_EQL),   // Numpad plus sign on a single-tap, equal sign on a double-tap
+        [PMUN] = ACTION_TAP_DANCE_DOUBLE(KC_PMNS, KC_UNDS),  // Numpad minus sign on a single-tap, underscore on a double-tap
+        [PSPA] = ACTION_TAP_DANCE_DOUBLE(KC_PSLS, KC_PAST),  // Numpad slash on a single-tap, NUMPAD ASTERISK ON A DOUBLE-TAP
+        [NUPU] = ACTION_TAP_DANCE_FN(num_pgup_fn),           // Numlock on a single-tap, page up on a double-tap
+        [PDCO] = ACTION_TAP_DANCE_DOUBLE(KC_COLN, KC_PGDN),  // Colon on a single-tap, page down on a double-tap
+        [ESHM] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_HOME),   // Escape on a single-tap, home on a double-tap
+        [TMEN] = ACTION_TAP_DANCE_FN(tmux_end_fn),           // Tmux leader on a single-tap, end on a double-tap
+};
