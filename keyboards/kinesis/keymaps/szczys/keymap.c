@@ -6,10 +6,10 @@ enum kinesis_layers {
   _COLEMAK,   // Colemak
   _QWERTY,    // QWERTY (default layer)
   _GAMING,    // Gaming/vanilla toggle layer (limited dual-role keys and layer access)
+  _LAYER0,
   _LAYER1,
   _LAYER2,
   _LAYER3,
-  _LAYER4,
   _NUMBERS,   // Numbers & Symbols
   _NUMBERS2,  // Numbers & Symbols 2 (identical as _NUMBERS; basically used for tri-layer access to _ADJUST)
   _FUNCTION,  // Function
@@ -414,16 +414,16 @@ Layer1
                                                   |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
                                                   `--------------------------'                 `--------------------------'
 */
-[_LAYER1] = LAYOUT_pretty(
+[_LAYER0] = LAYOUT_pretty(
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-    KC_NO,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,   KC_NO,
-  KC_NO,    KC_A,    KC_S, MT(MOD_LALT,KC_D), MT(MOD_LGUI,KC_F),    KC_G,                                      KC_H,    KC_J,    KC_K,    KC_L, KC_ENT,   KC_NO,
-  KC_NO,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                          KC_N,    KC_M, KC_COLN, KC_ESC,  KC_F12, KC_NO,
+   KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                                          KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
+  KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+OSM(KC_LSFT), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                                          KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
              KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
-                                                        KC_NO,  KC_NO,                     KC_NO,   KC_NO,
-                                                                 KC_NO,                     KC_NO,
-                                          KC_SPACE,OSM(MOD_LSFT),    KC_NO,                   KC_NO,   OSM(MOD_RCTL), TO(_LAYER2)
+                                                          KC_NO,   KC_NO,                     KC_NO,   KC_NO,
+                                                                   KC_NO,                     KC_NO,
+                                                 KC_NO,  KC_SPC,  KC_F12,                   KC_RALT,TO(_LAYER1), KC_ENT
 ),
 
 /*
@@ -449,16 +449,16 @@ Layer2
                                                   |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
                                                   `--------------------------'                 `--------------------------'
 */
-[_LAYER2] = LAYOUT_pretty(
+[_LAYER1] = LAYOUT_pretty(
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-    KC_NO, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                                                       KC_CIRC, KC_AMPR, KC_ASTR,   KC_NO, KC_BSPC,   KC_NO,
-    KC_NO,  KC_TAB, KC_MINS, KC_LBRC, KC_RBRC,  KC_EQL,                                                       KC_LEFT,   KC_UP, KC_DOWN,KC_RIGHT,  KC_ENT,   KC_NO,
-    KC_NO, KC_TILD,   KC_NO, KC_LPRN, KC_RPRN, KC_DQUO,                                                         KC_NO,   KC_NO, KC_COMM, KC_DOT,TO(_LAYER3), KC_NO,
+   KC_TAB,  KC_GRV,  KC_DLR, KC_EXLM, KC_LCBR, KC_RCBR,                                                       KC_PSLS,    KC_7,    KC_8,    KC_9, KC_MINS, KC_BSPC,
+  KC_LCTL, KC_BSLS, KC_HASH, KC_AMPR, KC_LPRN, KC_RPRN,                                                       KC_ASTR,    KC_4,    KC_5,    KC_6, KC_PLUS,  KC_ENT,
+  KC_LSFT, KC_MINS, KC_UNDS, KC_PIPE, KC_LBRC, KC_RBRC,                                                          KC_0,    KC_1,    KC_2,    KC_3,  KC_EQL, TO(_LAYER2),
              KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
                                                            KC_NO,  KC_NO,                     KC_NO,   KC_NO,
                                                                    KC_NO,                     KC_NO,
-                                          TO(_LAYER1), KC_LSFT,    KC_NO,                     KC_NO, KC_RGUI, TO(_LAYER4)
+                                               KC_LGUI, TO(_LAYER0),  KC_SPC,               KC_RALT, TO(_LAYER3), KC_ENT
 ),
 
 /*
@@ -486,16 +486,16 @@ Layer3
                                                   |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
                                                   `--------------------------'                 `--------------------------'
 */
-[_LAYER3] = LAYOUT_pretty(
+[_LAYER2] = LAYOUT_pretty(
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-    KC_NO,  KC_ESC, KC_MS_WH_LEFT, KC_MS_UP, KC_MS_WH_RIGHT, KC_NO,                             KC_WBAK, LCTL(LSFT(KC_TAB)), RCTL(KC_TAB), KC_WFWD, KC_BSPC, KC_NO,
-  KC_LCTL,  KC_TAB, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, MT(MOD_LGUI,KC_DEL),                                 KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT,   KC_ENT,   KC_NO,
-  KC_LSFT,   KC_NO, KC_MS_BTN2, KC_MS_WH_UP, KC_MS_WH_DOWN, KC_NO,                              KC_MS_BTN1, KC_MS_ACCEL0, KC_MS_ACCEL1, KC_MS_ACCEL2, KC_NO, KC_NO,
+   KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                                                       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+  KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                                       KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_BSLS,  KC_GRV,
+  KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                                       KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
              KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
-                                                        KC_ESC,  XXXXXXX,                     KC_NO,   KC_NO,
-                                                                 KC_LALT,                     KC_NO,
-                                          TO(_LAYER1),  KC_ENT,    KC_NO,                   ENTNS,   KC_RALT, TO(_LAYER2)
+                                                          KC_NO,   KC_NO,                     KC_NO,   KC_NO,
+                                                                   KC_NO,                     KC_NO,
+                                               KC_LGUI,   TO(_LAYER0),  KC_SPC,                    KC_ENT, TO(_LAYER1), KC_RALT
 ),
 
 /*
@@ -523,16 +523,16 @@ Layer4
                                                   |        |        |  Bspc  |                 |Enter/NS| Number2|   Fn2  |
                                                   `--------------------------'                 `--------------------------'
 */
-[_LAYER4] = LAYOUT_pretty(
+[_LAYER3] = LAYOUT_pretty(
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_PSCR, KC_SCRL, KC_PAUS,   KC_NO,  ADJUST,
     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     KC_NO,  KC_ESC, KC_MEDIA_PLAY_PAUSE,KC_MEDIA_PREV_TRACK,KC_MEDIA_NEXT_TRACK,LSFT(KC_MINS),                KC_MINS,    KC_7,    KC_8,    KC_9, KC_BSPC,   KC_NO,
   KC_LCTL,  KC_TAB,   KC_NO, KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,LSFT(KC_EQL),                                   KC_EQL,    KC_4,    KC_5,    KC_6, KC_ENT,   KC_NO,
-  KC_LSFT, KC_NO, KC_KP_ASTERISK, KC_BRIGHTNESS_DOWN,KC_BRIGHTNESS_UP,KC_KP_DOT,                                 KC_0,    KC_1,    KC_2,    KC_3, TO(_LAYER3), KC_NO,
+  KC_LSFT, KC_NO, KC_KP_ASTERISK, KC_BRIGHTNESS_DOWN,KC_BRIGHTNESS_UP,KC_KP_DOT,                                 KC_0,    KC_1,    KC_2,    KC_3, TO(_LAYER2), KC_NO,
              KC_NO,   KC_NO,   KC_NO,   KC_NO,                                                                           KC_NO,   KC_NO,   KC_NO,   KC_NO,
-                                                        KC_ESC,  XXXXXXX,                     KC_NO,   KC_NO,
-                                                                 KC_LALT,                     KC_NO,
-                                          TO(_LAYER1),   KC_NO,    KC_NO,                     KC_NO, KC_RALT, TO(_LAYER2)
+                                                          KC_NO,   KC_NO,                     KC_NO,   KC_NO,
+                                                                   KC_NO,                     KC_NO,
+                                             KC_NO, TO(_LAYER0),   KC_NO,                     KC_NO, KC_RALT, TO(_LAYER1)
 ),
 
 /*
@@ -621,8 +621,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   case LAYER1:
     if (record->event.pressed) {
-      default_layer_set(1UL << _LAYER1);
-      layer_move (_LAYER1);
+      default_layer_set(1UL << _LAYER0);
+      layer_move (_LAYER0);
       keymap_config.nkro = 0;
     }
     return false;
@@ -687,25 +687,25 @@ layer_state_t layer_state_set_user(layer_state_t state) {
       writePin(LED_NUM_LOCK_PIN, LED_PIN_ON_STATE);
       break;
 
-    case _LAYER1:
+    case _LAYER0:
       writePin(LED_NUM_LOCK_PIN, !LED_PIN_ON_STATE);
       writePin(LED_SCROLL_LOCK_PIN, !LED_PIN_ON_STATE);
       writePin(LED_COMPOSE_PIN, !LED_PIN_ON_STATE);
       break;
 
-    case _LAYER2:
+    case _LAYER1:
       writePin(LED_NUM_LOCK_PIN, LED_PIN_ON_STATE);
       writePin(LED_SCROLL_LOCK_PIN, !LED_PIN_ON_STATE);
       writePin(LED_COMPOSE_PIN, !LED_PIN_ON_STATE);
       break;
 
-    case _LAYER3:
+    case _LAYER2:
       writePin(LED_NUM_LOCK_PIN, !LED_PIN_ON_STATE);
       writePin(LED_SCROLL_LOCK_PIN, LED_PIN_ON_STATE);
       writePin(LED_COMPOSE_PIN, !LED_PIN_ON_STATE);
       break;
 
-    case _LAYER4:
+    case _LAYER3:
       writePin(LED_NUM_LOCK_PIN, !LED_PIN_ON_STATE);
       writePin(LED_SCROLL_LOCK_PIN, !LED_PIN_ON_STATE);
       writePin(LED_COMPOSE_PIN, LED_PIN_ON_STATE);
