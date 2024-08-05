@@ -11,6 +11,7 @@ enum custom_layers {
   _QWERTY,
   _LOWER,
   _RAISE,
+  _NUMPAD,
   _FUNC,
 };
 
@@ -18,6 +19,7 @@ enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
+  NUMPAD,
   FUNC,
   BACKLIT,
   ALT_TAB,
@@ -26,14 +28,17 @@ enum custom_keycodes {
 enum combos {
   QP_PRTSCR_SFT,
   ZP_PRTSCR,
+  ESC_ALT_NUMLOCK,
 };
 
 const uint16_t PROGMEM qp_combo[] = {KC_Q, KC_P, COMBO_END};
 const uint16_t PROGMEM zp_combo[] = {KC_Z, KC_P, COMBO_END};
+const uint16_t PROGMEM esc_alt_combo[] = {KC_ESC, KC_LALT, COMBO_END};
 
 combo_t key_combos[] = {
   [QP_PRTSCR_SFT]    = COMBO(qp_combo, LSFT(KC_PSCR)),
   [ZP_PRTSCR]    = COMBO(zp_combo, KC_PSCR),
+  [ESC_ALT_NUMLOCK]    = COMBO(esc_alt_combo, TG(_NUMPAD)),
 };
 
 // Tap Dance declarations
@@ -85,6 +90,7 @@ void matrix_scan_user(void) {
 #define GUI_ENT  GUI_T(KC_ENT)
 #define LOW_TAB  LT(_LOWER, KC_TAB)
 #define RSE_BSP  LT(_RAISE, KC_BSPC)
+#define NUM_KCF  LT(_NUMPAD, KC_F)
 #define OSM_SFT  OSM(MOD_LSFT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -92,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y    ,KC_U    ,KC_I    ,KC_O    ,KC_P    ,KC_DEL  ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
- OSM(MOD_LALT),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,
+      KC_LALT,    KC_A,    KC_S,    KC_D, NUM_KCF,    KC_G,                     KC_H    ,KC_J    ,KC_K    ,KC_L    ,KC_SCLN ,KC_QUOT ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
  OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                     KC_N    ,KC_M    ,KC_COMM ,KC_DOT  ,KC_SLSH ,OSL_FUN ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -121,6 +127,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_LT  , KC_GT  ,  KC_GRV, KC_TILD, XXXXXXX,                     C(KC_SPC) ,TD(TD_OP_BRC), TD(TD_CL_BRC), KC_PIPE, KC_BSLS,_______ ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                      LCTL(KC_ENT), KC_TRNS, XXXXXXX,    RAISE  , KC_TRNS, KC_TRNS
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [_NUMPAD] = LAYOUT(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PPLS,   KC_P7,   KC_P8,   KC_P9, KC_PAST,_______ ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, NUMPAD, XXXXXXX,                       KC_PMNS,   KC_P4,   KC_P5,   KC_P6, KC_PSLS,_______ ,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PEQL,   KC_P1,   KC_P2,   KC_P3, KC_PENT,_______ ,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX,  KC_ENT,  KC_TAB,     KC_SPC,   KC_P0, KC_PDOT
                                       //`--------------------------'  `--------------------------'
   ),
 
