@@ -37,6 +37,7 @@ This is the C configuration file for the keymap
 // will perform its tap action. If the HOLD_ON_OTHER_KEY_PRESS option is
 // enabled, the dual-role key will perform its hold action instead.
 #define HOLD_ON_OTHER_KEY_PRESS
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 // markstos: not sure if these are correct
 // They are intended to beep and flash during flashing
