@@ -25,17 +25,27 @@ enum custom_keycodes {
   ALT_TAB,
 };
 
+// Short names for complex keys
+#define OSM_AGR  OSM(MOD_RALT)
+#define GUI_ENT  GUI_T(KC_ENT)
+#define LOW_TAB  LT(_LOWER, KC_TAB)
+#define RSE_BSP  LT(_RAISE, KC_BSPC)
+#define NUM_KCF  LT(_NUMPAD, KC_F)
+
 enum combos {
+  DF_MINUS,
   QP_PRTSCR_SFT,
   ZP_PRTSCR,
   ESC_ALT_NUMLOCK,
 };
 
+const uint16_t PROGMEM df_combo[] = {KC_D, NUM_KCF, COMBO_END};
 const uint16_t PROGMEM qp_combo[] = {KC_Q, KC_P, COMBO_END};
 const uint16_t PROGMEM zp_combo[] = {KC_Z, KC_P, COMBO_END};
 const uint16_t PROGMEM esc_alt_combo[] = {KC_ESC, KC_LALT, COMBO_END};
 
 combo_t key_combos[] = {
+  [DF_MINUS]    = COMBO(df_combo, KC_MINS),
   [QP_PRTSCR_SFT]    = COMBO(qp_combo, LSFT(KC_PSCR)),
   [ZP_PRTSCR]    = COMBO(zp_combo, KC_PSCR),
   [ESC_ALT_NUMLOCK]    = COMBO(esc_alt_combo, TG(_NUMPAD)),
@@ -83,13 +93,6 @@ void matrix_scan_user(void) {
     }
   }
 }
-
-// For _QWERTY layer
-#define OSM_AGR  OSM(MOD_RALT)
-#define GUI_ENT  GUI_T(KC_ENT)
-#define LOW_TAB  LT(_LOWER, KC_TAB)
-#define RSE_BSP  LT(_RAISE, KC_BSPC)
-#define NUM_KCF  LT(_NUMPAD, KC_F)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
