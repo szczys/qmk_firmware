@@ -149,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_F11 , KC_F12 , XXXXXXX, RGB_M_P, RGB_M_R,                     RGB_TOG , RGB_VAI, RGB_HUI, RGB_SAI, XXXXXXX,_______ ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_CAPS, XXXXXXX, XXXXXXX, RGB_M_SW, RGB_M_B,                    RGB_MOD , RGB_VAD, RGB_HUD, RGB_SAD, XXXXXXX,XXXXXXX ,
+      _______, KC_CAPS, XXXXXXX, XXXXXXX, RGB_M_SW, RGB_M_B,                    RGB_MOD , RGB_VAD, RGB_HUD, RGB_SAD, XXXXXXX,   FUNC ,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LCTL, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
