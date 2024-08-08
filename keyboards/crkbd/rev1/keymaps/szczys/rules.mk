@@ -1,3 +1,5 @@
+LAYOUTS = split_3x6_3
+
 # markstos: enable media keys
 EXTRAKEY_ENABLE = yes
 
