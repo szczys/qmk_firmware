@@ -86,7 +86,6 @@ tags
 *.png
 *.apng
 *.mng
-*.svg
 *.webp
 *.webm
 *.avi
@@ -119,3 +118,6 @@ compile_commands.json
 # VIA(L) files that don't belong in QMK repo
 via*.json
 /keyboards/**/keymaps/vial/*
+
+szczys_corne_qmk.json
+szczys_corne_qmk.yaml

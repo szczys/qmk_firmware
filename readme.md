@@ -1,36 +1,48 @@
-# Quantum Mechanical Keyboard Firmware
+# Corne ZMK Mapping by Mike Szczys
 
-[![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
-[![Discord](https://img.shields.io/discord/440868230475677696.svg)](https://discord.gg/Uq7gcHh)
-[![Docs Status](https://img.shields.io/badge/docs-ready-orange.svg)](https://docs.qmk.fm)
-[![GitHub contributors](https://img.shields.io/github/contributors/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/pulse/monthly)
-[![GitHub forks](https://img.shields.io/github/forks/qmk/qmk_firmware.svg?style=social&label=Fork)](https://github.com/qmk/qmk_firmware/)
+Corne split keyboard mapping driven by [Frood RP2040 Pro Micro
+Controllers](https://42keebs.eu/shop/parts/controllers/frood-rp2040-pro-micro-controller/).
 
-This is a keyboard firmware based on the [tmk\_keyboard firmware](https://github.com/tmk/tmk_keyboard) with some useful features for Atmel AVR and ARM controllers, and more specifically, the [OLKB product line](https://olkb.com), the [ErgoDox EZ](https://ergodox-ez.com) keyboard, and the Clueboard product line.
+![Szczys Corne keymap](./szczys_corne_qmk.svg)
 
-## Documentation
+Keymap originally based on the Corne layout [by Mark
+Stosberg](https://mark.stosberg.com/markstos-corne-3x5-1-keyboard-layout/).
 
-* [See the official documentation on docs.qmk.fm](https://docs.qmk.fm)
+## Build
 
-The docs are powered by [VitePress](https://vitepress.dev/). They are also viewable offline; see [Previewing the Documentation](https://docs.qmk.fm/#/contributing?id=previewing-the-documentation) for more details.
+```
+keymap parse -c 10 -q szczys_corne_qmk.json > szczys_corne_qmk.yaml
+```
 
-You can request changes by making a fork and opening a [pull request](https://github.com/qmk/qmk_firmware/pulls).
+## Visualize keymap
 
-## Supported Keyboards
+Generate an SVG using [keymap
+drawer](https://github.com/caksoylar/keymap-drawer)
 
-* [Planck](/keyboards/planck/)
-* [Preonic](/keyboards/preonic/)
-* [ErgoDox EZ](/keyboards/ergodox_ez/)
-* [Clueboard](/keyboards/clueboard/)
-* [Cluepad](/keyboards/clueboard/17/)
-* [Atreus](/keyboards/atreus/)
+### Prerequisite: Install keymap drawer
 
-The project also includes community support for [lots of other keyboards](/keyboards/).
+```
+pip install keymap-drawer
+```
 
-## Maintainers
+Alternatively you may use [the web app](https://keymap-drawer.streamlit.app/).
 
-QMK is developed and maintained by Jack Humbert of OLKB with contributions from the community, and of course, [Hasu](https://github.com/tmk). The OLKB product firmwares are maintained by [Jack Humbert](https://github.com/jackhumbert), the Ergodox EZ by [ZSA Technology Labs](https://github.com/zsa), the Clueboard by [Zach White](https://github.com/skullydazed), and the Atreus by [Phil Hagelberg](https://github.com/technomancy).
+### Generate the visualization
 
-## Official Website
+```
+qmk c2json -km szczys -kb crkbd -o szczys_corne_qmk.json
+keymap parse -c 10 -q szczys_corne_qmk.json > szczys_corne_qmk.yaml
+./qmk_fix_yaml_keymap.py
+keymap -c keymap_drawer_config.yaml draw szczys_corne_qmk.yaml > szczys_corne_qmk.svg
+```
 
-[qmk.fm](https://qmk.fm) is the official website of QMK, where you can find links to this page, the documentation, and the keyboards supported by QMK.
+The `qmk_fix_yaml_keymap.py` is a hacky way of post-processing the yaml to
+achieve the following results:
+- Give the layers names
+- Highlight the "held" key for each layer in pink
+- Convert the `LT()` macros to tap/hold assignments (not sure why keymap-drawer
+  is failing to parse these)
+- Add combos
+
+Layer names and all combo assignments must be manually added to this python
+file when changes to those aspects are made on the keymap.
